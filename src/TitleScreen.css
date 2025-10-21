@@ -1,0 +1,56 @@
+/* Full screen title */
+.title-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  background: radial-gradient(#000000 0%, #ffffff 100%);
+  color: #ffd700;
+  font-family: 'Arial Black', sans-serif;
+  text-align: center;
+}
+
+.title-screen h1 {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px #000;
+}
+
+.title-screen p {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.title-screen button {
+  padding: 1rem 2rem;
+  font-size: 1.5rem;
+  background-color: #ff4500;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.title-screen button:hover {
+  background-color: #ff6347;
+  transform: scale(1.05);
+}
+
+/* Game screen placeholder */
+.game-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  font-size: 2rem;
+  color: #fff;
+  background-color: #111;
+}
+.title-screen .logo {
+  width: 50px;   /* adjust as needed */
+  margin-bottom: 2rem;
+}
