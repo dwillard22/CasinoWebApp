@@ -3,35 +3,52 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+
+  /* Viewport-based sizing */
+  width: 100vw;   /* 100% of viewport width */
+  height: 100vh;  /* 100% of viewport height */
+
   padding: 2rem;
-  min-height: 100vh;
-  width: 100%; /* ensure full screen width */
+  margin: 0;
   background: radial-gradient(circle at top, #111, #220000);
   color: #fff;
   text-align: center;
   position: relative;
-  box-sizing: border-box; /* include padding in width */
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
+/* Logo */
 .game-screen .logo {
   width: 200px;
+  max-width: 25vw;
+  height: auto;
   margin-bottom: 1.5rem;
+  filter: drop-shadow(0 0 10px rgba(218, 53, 60, 0.8));
 }
 
+/* Grid Layout (2x2 responsive) */
 .game-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* responsive 2x2 */
+  grid-template-columns: repeat(2, 1fr); /* 2x2 layout */
   gap: 2rem;
-  width: 90%; /* use almost full width */
-  max-width: 1200px; /* optional max width for very large screens */
+  justify-items: center;
+  align-items: center;
+  width: 100%;
+  max-width: 900px;
   margin-top: 2rem;
 }
 
+/* Game Cards */
 .game-card {
+  width: 250px;        /* fixed width */
+  height: 150px;       /* fixed height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: linear-gradient(135deg, #220000, #440000);
   border: 2px solid #DA353C;
   border-radius: 16px;
-  padding: 2.5rem 1rem;
   font-size: 1.5rem;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -45,7 +62,11 @@
   transform: scale(1.05);
 }
 
+/* Back Button */
 .back-button {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
   padding: 0.8rem 1.5rem;
   font-size: 1rem;
   border-radius: 8px;

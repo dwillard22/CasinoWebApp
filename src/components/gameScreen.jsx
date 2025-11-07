@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import "../styles/GameScreen.css";
-import MirageLogo from "../assets/MirageLogo.png";
 
 export default function GameScreen() {
   const navigate = useNavigate();
@@ -14,7 +13,6 @@ export default function GameScreen() {
 
   return (
     <div className="game-screen">
-      <img src={MirageLogo} alt="Logo" className="logo" />
       <h1>Select Your Game</h1>
 
       <div className="game-grid">
