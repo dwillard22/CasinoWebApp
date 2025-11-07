@@ -1,0 +1,62 @@
+.game-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 2rem;
+  min-height: 100vh;
+  width: 100%; /* ensure full screen width */
+  background: radial-gradient(circle at top, #111, #220000);
+  color: #fff;
+  text-align: center;
+  position: relative;
+  box-sizing: border-box; /* include padding in width */
+}
+
+.game-screen .logo {
+  width: 200px;
+  margin-bottom: 1.5rem;
+}
+
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* responsive 2x2 */
+  gap: 2rem;
+  width: 90%; /* use almost full width */
+  max-width: 1200px; /* optional max width for very large screens */
+  margin-top: 2rem;
+}
+
+.game-card {
+  background: linear-gradient(135deg, #220000, #440000);
+  border: 2px solid #DA353C;
+  border-radius: 16px;
+  padding: 2.5rem 1rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  box-shadow: 0 0 15px rgba(218, 53, 60, 0.5);
+}
+
+.game-card:hover {
+  background: #DA353C;
+  color: white;
+  transform: scale(1.05);
+}
+
+.back-button {
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: none;
+  background-color: #444;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.back-button:hover {
+  background-color: #666;
+  transform: scale(1.05);
+}
