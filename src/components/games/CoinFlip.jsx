@@ -2,7 +2,6 @@ import "../../styles/gameScreen.css";
 /**
  * Simulate a coin flip game. The player bets 5 coins and guesses either
  * "heads" or "tails". If their guess is correct they win 8 coins.
- *
  * @param {object} userProfile – The player's profile, mutated in place.
  * @param {string} guess – Player's guess ("heads" or "tails").
  * @returns {object} – Outcome details including whether they won and coins.
