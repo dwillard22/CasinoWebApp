@@ -4,7 +4,6 @@ import "../../styles/gameScreen.css";
  * Simulate playing a match‑3 style game. The game costs 5 coins to play.
  * A 3×3 board is filled with random fruit symbols; if any row or column
  * consists of identical symbols the player wins 40 coins.
- *
  * @param {object} userProfile – The player's profile, mutated in place.
  * @returns {object} – Board, whether a match occurred, winnings and coins.
  */
