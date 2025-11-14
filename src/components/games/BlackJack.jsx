@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../../styles/GameScreen.css";
+import "../../styles/blackJack.css";
 
 export default function BlackJack() {
   const navigate = useNavigate();
