@@ -1,0 +1,83 @@
+:root {
+  --casino-red: #b3050e;
+  --casino-gold: #ffd700;
+  --casino-dark: #111;
+  --casino-text: #f8f8f8;
+
+  font-family: 'Poppins', 'Arial Black', system-ui, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: dark;
+  color: var(--casino-text);
+  background-color: var(--casino-dark);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Remove default link styles */
+a {
+  font-weight: 600;
+  color: var(--casino-gold);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--casino-red);
+}
+
+/* Body centered and dark */
+body {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+  background: radial-gradient(circle at top, #200000, #000);
+  overflow: hidden;
+}
+
+/* Headings */
+h1, h2, h3 {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 0 0 8px rgba(255, 0, 0, 0.6);
+}
+
+/* Default button look */
+button {
+  border-radius: 10px;
+  border: none;
+  padding: 0.8em 1.6em;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: inherit;
+  background: linear-gradient(145deg, var(--casino-red), #ff4040);
+  color: white;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+}
+
+button:hover {
+  transform: scale(1.05);
+  background: linear-gradient(145deg, #ff5252, #ff7373);
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.8);
+}
+
+/* Light mode fallback (optional) */
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #222;
+    background-color: #f2f2f2;
+  }
+  button {
+    background: linear-gradient(145deg, #e63946, #f87171);
+    color: #fff;
+  }
+}

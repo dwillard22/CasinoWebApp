@@ -1,0 +1,106 @@
+/* ---------- Layout ---------- */
+
+.game-page {
+  text-align: center;
+  padding: 25px;
+  color: #fff;
+  font-family: "Segoe UI", sans-serif;
+}
+
+h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+}
+
+/* ---------- Buttons ---------- */
+
+.game-button {
+  background-color: #2c2f33;
+  border: 2px solid #444;
+  padding: 12px 22px;
+  margin: 10px;
+  font-size: 1.2rem;
+  color: #fff;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.game-button:hover {
+  background-color: #3a3d41;
+  transform: scale(1.05);
+}
+
+.back-button {
+  margin-top: 25px;
+  background-color: #444;
+  border-color: #666;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 10px;
+}
+
+.back-button:hover {
+  background-color: #555;
+}
+
+/* ---------- Hands & Card Layout ---------- */
+
+.hand {
+  margin: 20px 0;
+}
+
+.cards {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.card {
+  width: 55px;
+  height: 75px;
+  background: #ffffff;
+  color: #000;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1.3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid #ddd;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  user-select: none;
+}
+
+/* Face-down card */
+.card:contains("🂠") {
+  background: #2c2f33;
+  border-color: #555;
+}
+
+/* Red suits */
+.card:contains("♥"),
+.card:contains("♦") {
+  color: red;
+}
+
+/* ---------- Message Styling ---------- */
+
+.message {
+  margin-top: 20px;
+  font-size: 1.6rem;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  display: inline-block;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.15);
+}
+
+/* Buttons row */
+.buttons {
+  margin-top: 10px;
+}
