@@ -1,0 +1,68 @@
+/* #Slots game styles */
+
+/* Container same as other games */
+.game-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+    color: #fff;
+    font-family: "Segoe UI", sans-serif;
+}
+
+/* Title */
+h2 {
+    margin-bottom: 10px;
+    font-size: 2.4rem;
+    text-shadow: 0 0 6px rgba(255, 255, 255, 0.4);
+}
+
+/* Reels */
+.reels {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.reel {
+    font-size: 3rem;
+    border: 2px solid #da353c;
+    border-radius: 10px;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 10px;
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 10px rgba(218, 53, 60, 0.4);
+}
+
+.coins-display {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.game-button,
+.back-button {
+    background-color: #2c2f33;
+    color: #fff;
+    border: 2px solid #555;
+    padding: 10px 16px;
+    margin: 8px;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.game-button:hover,
+.back-button:hover {
+    background-color: #444;
+    transform: scale(1.05);
+}
+
+.message {
+    margin-top: 10px;
+    font-size: 1.2rem;
+}

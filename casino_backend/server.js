@@ -2,41 +2,30 @@
 
 /* eslint-disable no-undef */
 // casino_backend/server.js
-import dotenv from 'dotenv';
 import express from 'express';
 import session from 'express-session';
 import { init as initDb } from './db.js';
 
-
-dotenv.config();
-
 const app = express();
 const PORT = process.env.PORT || 3000;
-
-// JSON body parser
 app.use(express.json());
 
-// Basic session middleware (for auth demo)
+// Simple session
 app.use(session({
-    secret: process.env.SESSION_SECRET || 'change-this-secret',
+    secret: 'secret',
     resave: false,
     saveUninitialized: true
 }));
 
-// Initialize DB and attach to request for convenience
-initDb().then(db => {
-    app.use((req, res, next) => {
-        req.db = db;
-        next();
-    });
+// Initialize DB and attaches it to req
+initDb().then(async db => {
+    app.use((req, res, next) => { req.db = db; next(); });
 
-    // Mount API routes
-    app.use('/api/leaderboard', leaderboardRouter);
-    app.use('/api/profile', profileRouter);
-    app.use('/api/slots', slotsRouter);
+    // Mount routes
+    app.use('/api/profile', (await import('./routes/profile.js')).default);
+    app.use('/api/slots', (await import('./routes/slots.js')).default);
 
-    // Start server
-    app.listen(PORT, () => {
-        console.log(`Server running on port ${PORT}`);
-    });
+    app.listen(PORT, () =>
+        console.log(`Server running on port ${PORT}`)
+    );
 });

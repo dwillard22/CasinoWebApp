@@ -1,5 +1,3 @@
-//This is a file for the ProfilePage component
-
 import { useEffect, useState } from 'react';
 
 export default function ProfilePage() {
@@ -7,17 +5,10 @@ export default function ProfilePage() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // fetch profile from our API
         fetch('/api/profile', { credentials: 'include' })
-            .then((res) => res.json())
-            .then((data) => {
-                setProfile(data);
-                setLoading(false);
-            })
-            .catch((err) => {
-                console.error('Failed to load profile', err);
-                setLoading(false);
-            });
+            .then(res => res.json())
+            .then(data => { setProfile(data); setLoading(false); })
+            .catch(err => { console.error(err); setLoading(false); });
     }, []);
 
     if (loading) return <p>Loading...</p>;
