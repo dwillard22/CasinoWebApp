@@ -3,10 +3,10 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./styles/index.css";
 
 // Screens
-import TitleScreen from "./components/TitleScreen";
 import GameScreen from "./components/gameScreen";
 import Header from "./components/header";
-import ProfilePage from './pages/ProfilePage';
+import ProfilePage from './components/ProfilePage';
+import TitleScreen from "./components/TitleScreen";
 
 // Games
 import BlackJack from "./components/games/BlackJack";
