@@ -1,3 +1,5 @@
+//This file has logic for a simple Slots game component in React.
+
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/slots.css';
