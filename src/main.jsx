@@ -1,12 +1,12 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./styles/index.css";
 
 // Screens
 import TitleScreen from "./components/TitleScreen";
 import GameScreen from "./components/gameScreen";
 import Header from "./components/header";
+import ProfilePage from './pages/ProfilePage';
 
 // Games
 import BlackJack from "./components/games/BlackJack";
@@ -24,6 +24,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       {/* Main navigation screens */}
       <Route path="/" element={<TitleScreen />} />
       <Route path="/games" element={<GameScreen />} />
+      <Route path="/profile" element={<ProfilePage />} />
 
       {/* Individual games */}
       <Route path="/games/blackjack" element={<BlackJack />} />
