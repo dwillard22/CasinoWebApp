@@ -10,7 +10,7 @@ import TitleScreen from "./components/TitleScreen";
 
 // Games
 import BlackJack from "./components/games/BlackJack";
-import DiceGame from "./components/games/DiceGame";
+import KenoGame from "./components/games/KenoGame";
 import RideTheBus from "./components/games/RideTheBus";
 import SlotsGame from "./components/games/SlotsGame";
 
@@ -28,7 +28,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 
       {/* Individual games */}
       <Route path="/games/blackjack" element={<BlackJack />} />
-      <Route path="/games/dice" element={<DiceGame />} />
+      <Route path="/games/Keno" element={<KenoGame />} />
       <Route path="/games/ride-the-bus" element={<RideTheBus />} />
       <Route path="/games/slots" element={<SlotsGame />} />
     </Routes>
