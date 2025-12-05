@@ -5,7 +5,7 @@ export default defineConfig({
     allowedHosts: ['*'],
     proxy: {
       '/api': {
-        target: 'http://localhost:8000',
+        target: 'http://localhost:4000',
         changeOrigin: true
       }
     }

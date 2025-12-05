@@ -5,7 +5,9 @@ import "./styles/index.css";
 // Screens
 import GameScreen from "./components/gameScreen";
 import Header from "./components/header";
-import ProfilePage from './components/ProfilePage';
+import LoginPage from './components/LoginPage';
+import ProfilePage from "./components/profilePage";
+import RegisterPage from './components/RegisterPage';
 import TitleScreen from "./components/TitleScreen";
 
 // Games
@@ -25,6 +27,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <Route path="/" element={<TitleScreen />} />
       <Route path="/games" element={<GameScreen />} />
       <Route path="/profile" element={<ProfilePage />} />
+      <Route path="/register" element={<RegisterPage />} />
+      <Route path="/login" element={<LoginPage />} />
 
       {/* Individual games */}
       <Route path="/games/blackjack" element={<BlackJack />} />

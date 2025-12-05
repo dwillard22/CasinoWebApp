@@ -1,6 +1,4 @@
-//This file has logic for a simple Slots game component in React.
-
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/slots.css';
 
@@ -8,128 +6,89 @@ const SYMBOLS = ['🍒', '🍋', '🔔', '⭐', '7'];
 
 export default function SlotsGame() {
   const navigate = useNavigate();
+  //const [bet, setBet] = useState(1);
   const [reels, setReels] = useState(['🍒', '🍋', '🔔']);
   const [spinning, setSpinning] = useState(false);
   const [message, setMessage] = useState('');
-  const [coins, setCoins] = useState(250); // optionally fetch from profile
+  const [coins, setCoins] = useState(250);
 
-  // quick client-side spin animation
-  const animateSpin = async () => {
-    const STEPS = 10;
-    const DELAY_MS = 70;
+  // On component mount, load saved coin balance (if any)
+  useEffect(() => {
+    const saved = localStorage.getItem('coinBalance');
+    if (saved) setCoins(JSON.parse(saved));
+  }, []);
 
-    for (let i = 0; i < STEPS; i++) {
+  // Whenever coins change, save the new value
+  useEffect(() => {
+    localStorage.setItem('coinBalance', JSON.stringify(coins));
+  }, [coins]);
+
+  const handleSpin = async () => {
+    if (spinning) return;             // prevent double-clicks
+    if (coins < 1) {                  // not enough coins to play
+      setMessage('Insufficient balance for this bet.');
+      return;
+    }
+    setSpinning(true);
+    setMessage('');
+    setCoins(prev => prev - 1);       // deduct 1 coin as the bet
+
+    // Quick animation: randomize symbols a few times to simulate spinning
+    for (let i = 0; i < 10; i++) {
       setReels([
         SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)],
         SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)],
-        SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)],
+        SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)]
       ]);
-      // small delay between frames
-      // eslint-disable-next-line no-await-in-loop
-      await new Promise(resolve => setTimeout(resolve, DELAY_MS));
+      await new Promise(r => setTimeout(r, 100));  // pause 100ms between shuffles
     }
+
+    // Determine final outcome
+    const finalReels = [
+      SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)],
+      SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)],
+      SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)]
+    ];
+    setReels(finalReels);
+
+    // Win logic: all 3 symbols match
+    if (finalReels[0] === finalReels[1] && finalReels[1] === finalReels[2]) {
+      const payout = 50;  // reward for a win (e.g. 50 coins)
+      setCoins(prev => prev + payout);
+      setMessage(`🎉 You won ${payout} coins!`);
+    } else {
+      setMessage('No win this time. Try again!');
+    }
+
+    setSpinning(false);
   };
 
-  const handleSpin = async () => {
-    if (spinning) return;
-
-    if (coins <= 0) {
-      setMessage('You have no coins left. Try another game or come back later.');
-      return;
-    }
-
-    setSpinning(true);
-    setMessage('');
-
-    await animateSpin();
-
-    try {
-      const res = await fetch('/api/slots/spin', {
-        method: 'POST',
-        credentials: 'include',
-      });
-
-      if (!res.ok) {
-        const text = await res.text();
-        console.error('Spin error:', res.status, text);
-        setMessage('Error spinning');
-        return;
-      }
-
-      const data = await res.json();
-      console.log('Spin result:', data);
-
-      const newReels = data.result ?? reels;
-      const payout = data.payout ?? 0;
-      const newCoins =
-        typeof data.coins === 'number'
-          ? data.coins
-          : coins;
-
-      setReels(newReels);
-      setCoins(newCoins);
-
-      // build message based on reels + payout
-      const counts = {};
-      for (const s of newReels) {
-        counts[s] = (counts[s] || 0) + 1;
-      }
-      const maxCount = Math.max(...Object.values(counts));
-      const symbolOfMax = Object.keys(counts).find(
-        k => counts[k] === maxCount
-      );
-
-      let userMessage = '';
-
-      if (payout >= 50 && symbolOfMax === '7') {
-        userMessage = `🎊 JACKPOT! Triple 7s — you won ${payout} coins!`;
-      } else if (maxCount === 3 && payout > 0) {
-        userMessage = `🎉 Triple ${symbolOfMax}! You won ${payout} coins!`;
-      } else if (maxCount === 2 && payout > 0) {
-        userMessage = `🎉 You won ${payout} coins with a pair of ${symbolOfMax}!`;
-      } else if (maxCount === 2) {
-        userMessage = `😮 So close — two ${symbolOfMax}! Try again for the triple.`;
-      } else if (payout > 0) {
-        userMessage = `🎉 You won ${payout} coins!`;
-      } else {
-        userMessage = 'No win — better luck next time.';
-      }
-
-      if (newCoins <= 0) {
-        userMessage += ' You have no coins left.';
-      }
-
-      setMessage(userMessage);
-    } catch (err) {
-      console.error('Network/JSON error:', err);
-      setMessage('Error spinning');
-    } finally {
-      setSpinning(false);
-    }
-  };
 
   return (
-    <div className="slots-container">
-      <h2>Slots</h2>
+    <div className="game-page">
+      <h2>🎰 Slots</h2>
+
+      {/* Slot reels display */}
       <div className="reels">
-        {reels.map((sym, i) => (
-          <div key={i} className="reel">
-            {sym}
-          </div>
+        {reels.map((symbol, idx) => (
+          <div key={idx} className="reel">{symbol}</div>
         ))}
       </div>
-      <p className="coins-display">Coins: {coins}</p>
-      <button
-        className="game-button"
-        onClick={handleSpin}
-        disabled={spinning}
-      >
-        {spinning ? 'Spinning...' : 'Spin (1 coin)'}
+
+      {/* Coin balance and Spin button */}
+      <p className="coins-display">Balance: ${coins}</p>
+      <button className="game-button" onClick={handleSpin} disabled={spinning}>
+        {spinning ? 'Spinning...' : 'Spin'}
       </button>
+
+      {/* Result message (win or try-again) */}
       {message && <p className="message">{message}</p>}
+
+      {/* Back navigation to games list */}
       <button className="back-button" onClick={() => navigate('/games')}>
         ⬅ Back to Games
       </button>
     </div>
   );
 }
+

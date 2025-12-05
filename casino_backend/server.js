@@ -7,7 +7,7 @@ import session from 'express-session';
 import { init as initDb } from './db.js';
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000; // default to 3000
 app.use(express.json());
 
 // Simple session
