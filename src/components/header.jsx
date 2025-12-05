@@ -14,7 +14,7 @@ export default function Header() {
       </div>
 
       <div className="right-section">
-        <span className="coins">🪙 250 Coins</span>
+        <span className="coins">🪙 250 Coins</span> 
         <button className="logout-btn">Logout</button>
       </div>
     </div>
