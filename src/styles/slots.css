@@ -66,3 +66,81 @@ h2 {
     margin-top: 10px;
     font-size: 1.2rem;
 }
+
+/* src/styles/SlotsGame.css */
+.slots-game {
+  text-align: center;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  background: radial-gradient(circle at top, #2b2b5f, #05030a);
+  color: #fdfdfd;
+}
+
+.slots-coins {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.slots-reels {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.slots-reel {
+  width: 70px;
+  height: 70px;
+  font-size: 2.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #111;
+  border-radius: 12px;
+  border: 2px solid #ffcc33;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+}
+
+.slots-spin-btn {
+  padding: 0.6rem 1.6rem;
+  font-size: 1rem;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(90deg, #ff4b4b, #ffb347);
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6);
+  transition: transform 0.1s ease, box-shadow 0.1s ease, opacity 0.2s ease;
+}
+
+.slots-spin-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+.slots-spin-btn:not(:disabled):active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+.slots-message {
+  margin-top: 1rem;
+  min-height: 1.5rem;
+}
+
+.slots-payout {
+  margin-top: 0.25rem;
+  font-weight: 600;
+}
+
+.slots-error {
+  margin-top: 0.5rem;
+  color: #ff6b6b;
+}

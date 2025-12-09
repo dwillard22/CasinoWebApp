@@ -1,4 +1,5 @@
 // casino_backend/db.js
+// casino_backend/db.js
 import { open } from 'sqlite';
 import sqlite3 from 'sqlite3';
 
@@ -10,23 +11,26 @@ export async function openDb() {
     });
 }
 
-// Set up tables on first load
+// Create tables if they don't exist
 export async function init() {
     const db = await openDb();
+
     await db.exec(`
-    CREATE TABLE IF NOT EXISTS users (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username TEXT NOT NULL,
-    email TEXT,
-    coins INTEGER DEFAULT 250
-    );
-    CREATE TABLE IF NOT EXISTS game_results (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id INTEGER,
-    game TEXT,
-    score INTEGER,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    );
-`);
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT,        -- removed NOT NULL
+            email TEXT,
+            coins INTEGER DEFAULT 250
+        );
+
+        CREATE TABLE IF NOT EXISTS game_results (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER,
+            game TEXT,
+            score INTEGER,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        );
+    `);
+
     return db;
 }
