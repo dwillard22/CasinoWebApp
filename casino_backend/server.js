@@ -24,6 +24,8 @@ initDb().then(async db => {
     // Mount routes
     app.use('/api/profile', (await import('./routes/profile.js')).default);
     app.use('/api/slots', (await import('./routes/slots.js')).default);
+    app.use('/api/blackjack', (await import('./routes/blackjack.js')).default);
+
 
     app.listen(PORT, () =>
         console.log(`Server running on port ${PORT}`)
