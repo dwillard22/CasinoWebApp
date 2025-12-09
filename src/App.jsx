@@ -1,18 +1,26 @@
 import { useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+
 import AuthScreen from "./components/AuthScreen";
-import GameScreen from "./components/gameScreen";
+import TitleScreen from "./components/TitleScreen";
+import GameScreen from "./components/GameScreen";
+import Header from "./components/Header";
+import ProfilePage from "./components/ProfilePage";
+
 import BlackJack from "./components/games/BlackJack";
-// etc.
+import KenoGame from "./components/games/KenoGame";
+import RideTheBus from "./components/games/RideTheBus";
+import SlotsGame from "./components/games/SlotsGame";
 
 function App() {
   const [user, setUser] = useState(null);
   const [checkingAuth, setCheckingAuth] = useState(true);
+  const location = useLocation();
 
   useEffect(() => {
-    fetch("/api/profile")
+    fetch("/api/profile", { credentials: "include" })
       .then((res) => {
-        if (!res.ok) throw new Error();
+        if (!res.ok) throw new Error("Not logged in");
         return res.json();
       })
       .then((data) => {
@@ -26,30 +34,61 @@ function App() {
   }, []);
 
   if (checkingAuth) {
-    return <div className="game-page"><h2>Loading...</h2></div>;
+    return (
+      <div className="game-page">
+        <h2>Loading...</h2>
+      </div>
+    );
   }
 
+  // Hide header on "/" (AuthScreen or TitleScreen, depending on user)
+  const hideHeader = location.pathname === "/";
+
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route
-          path="/"
-          element={user ? <Navigate to="/games" /> : <AuthScreen />}
-        />
+    <>
+      {!hideHeader && <Header />}
 
-        <Route
-          path="/games"
-          element={user ? <GameScreen /> : <Navigate to="/" />}
-        />
+      <div style={{ marginTop: hideHeader ? "0" : "80px" }}>
+        <Routes>
+          {/* ROOT: if no user → AuthScreen, if logged in → TitleScreen */}
+          <Route
+            path="/"
+            element={user ? <TitleScreen /> : <AuthScreen />}
+          />
 
-        <Route
-          path="/games/blackjack"
-          element={user ? <BlackJack /> : <Navigate to="/" />}
-        />
+          {/* After login: game hub + profile */}
+          <Route
+            path="/games"
+            element={user ? <GameScreen /> : <Navigate to="/" />}
+          />
+          <Route
+            path="/profile"
+            element={user ? <ProfilePage /> : <Navigate to="/" />}
+          />
 
-        {/* other games... */}
-      </Routes>
-    </BrowserRouter>
+          {/* Protected individual games */}
+          <Route
+            path="/games/blackjack"
+            element={user ? <BlackJack /> : <Navigate to="/" />}
+          />
+          <Route
+            path="/games/keno"
+            element={user ? <KenoGame /> : <Navigate to="/" />}
+          />
+          <Route
+            path="/games/ride-the-bus"
+            element={user ? <RideTheBus /> : <Navigate to="/" />}
+          />
+          <Route
+            path="/games/slots"
+            element={user ? <SlotsGame /> : <Navigate to="/" />}
+          />
+
+          {/* Fallback */}
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      </div>
+    </>
   );
 }
 
