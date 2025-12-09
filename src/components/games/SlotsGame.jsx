@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../../styles/slots.css";
 
 
 const INITIAL_REELS = ["❔", "❔", "❔"];
 
 export default function SlotsGame() {
+  const navigate = useNavigate();
   const [reels, setReels] = useState(INITIAL_REELS);
   const [coins, setCoins] = useState(null); // backend is source of truth
   const [message, setMessage] = useState("Click SPIN to play!");
@@ -85,7 +87,7 @@ export default function SlotsGame() {
         onClick={handleSpin}
         disabled={isSpinning}
       >
-        {isSpinning ? "Spinning..." : "Spin (-1 coin)"}
+        {isSpinning ? "Spinning..." : "Spin (1 coin)"}
       </button>
 
       <p className="slots-message">{message}</p>
@@ -95,6 +97,10 @@ export default function SlotsGame() {
       )}
 
       {error && <p className="slots-error">{error}</p>}
+      <button className="back-button" onClick={() => navigate("/games")}>
+        ⬅ Back to Games
+      </button>
     </div>
+    
   );
 }
