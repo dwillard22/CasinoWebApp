@@ -1,0 +1,36 @@
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(circle at top, #222b55, #05030a);
+  color: #fff;
+  font-family: "Segoe UI", sans-serif;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  padding: 24px 28px;
+  border-radius: 16px;
+  background: rgba(0, 0, 0, 0.8);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+  text-align: center;
+}
+
+.auth-card h1 {
+  margin-bottom: 10px;
+  font-size: 2rem;
+}
+
+.auth-card p {
+  margin-bottom: 20px;
+  opacity: 0.85;
+}
+
+.auth-google-btn {
+  width: 100%;
+  margin-top: 10px;
+}
