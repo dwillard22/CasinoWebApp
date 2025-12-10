@@ -20,12 +20,8 @@ export default function Header() {
         <h2>🎰 Casino Game</h2>
       </div>
       <div className="right-section">
-        {coins != null ? (
-          <span className="coins">🪙 {coins}.Coins</span>
-        ) : (
-          <span className="coins">🪙 ---</span>
-        )}
-        {/* Logout button for when I implement authentication*/}
+        <span className="coins">🪙 250 Coins</span> 
+        <button className="logout-btn">Logout</button>
       </div>
     </div>
   );
