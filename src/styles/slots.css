@@ -188,3 +188,14 @@
     padding: 18px 60px;
   }
 }
+
+/* Optional: make spinning look more alive */
+.slots-reels.spinning .slots-reel {
+  animation: reelShake 0.15s infinite linear;
+}
+
+@keyframes reelShake {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-2px); }
+  100% { transform: translateY(0px); }
+}
