@@ -8,15 +8,22 @@ export default function AuthScreen() {
   return (
     <div className="auth-page">
       <div className="auth-card">
-        <h1>Mirage Casino</h1>
-        <p>Sign in to play Blackjack, Slots, and more.</p>
+        <h1 className="auth-title">Mirage Casino</h1>
+        <p className="auth-subtitle">
+          Sign in to play Blackjack, Slots, and more.
+        </p>
 
-        <button className="game-button auth-google-btn" onClick={handleGoogleLogin}>
-          Continue with Google
+        <button
+          className="game-button auth-google-btn"
+          onClick={handleGoogleLogin}
+        >
+          <span className="google-icon-circle">G</span>
+          <span>Continue with Google</span>
         </button>
 
-        {/* You can add other providers later */}
-        {/* <button className="game-button">Continue with GitHub</button> */}
+        <p className="auth-footnote">
+          Secure sign-in powered by Google OAuth.
+        </p>
       </div>
     </div>
   );
