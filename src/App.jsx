@@ -4,7 +4,7 @@ import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import AuthScreen from "./components/AuthScreen";
 import TitleScreen from "./components/TitleScreen";
 import GameScreen from "./components/GameScreen";
-import Header from "./components/Header";
+import Header from "./components/header";
 import ProfilePage from "./components/ProfilePage";
 
 import BlackJack from "./components/games/BlackJack";
@@ -46,7 +46,15 @@ function App() {
 
   return (
     <>
-      {!hideHeader && <Header />}
+      {!hideHeader && (
+      <Header
+        user={user}
+        onLogout={async () => {
+          await fetch("/api/auth/logout", { method: "POST", credentials: "include" });
+          setUser(null);
+        }}
+      />
+      )}
 
       <div style={{ marginTop: hideHeader ? "0" : "80px" }}>
         <Routes>
@@ -69,20 +77,36 @@ function App() {
           {/* Protected individual games */}
           <Route
             path="/games/blackjack"
-            element={user ? <BlackJack /> : <Navigate to="/" />}
-          />
+            element={
+              user ? (
+                <BlackJack
+                  onCoinsChange={(newCoins) =>
+                    setUser((prev) => (prev ? { ...prev, coins: newCoins } : prev))
+                  } />) : (<Navigate to="/" />)}/>
           <Route
             path="/games/keno"
-            element={user ? <KenoGame /> : <Navigate to="/" />}
-          />
+            element={
+              user ? (
+                <KenoGame
+                  onCoinsChange={(newCoins) =>
+                    setUser((prev) => (prev ? { ...prev, coins: newCoins } : prev))
+                  }/>) : (<Navigate to="/" />)}/>
           <Route
             path="/games/ride-the-bus"
-            element={user ? <RideTheBus /> : <Navigate to="/" />}
-          />
+            element={
+              user ? (
+                <RideTheBus
+                  onCoinsChange={(newCoins) =>
+                    setUser((prev) => (prev ? { ...prev, coins: newCoins } : prev))
+                 } /> ):(<Navigate to="/" /> )}/>
           <Route
             path="/games/slots"
-            element={user ? <SlotsGame /> : <Navigate to="/" />}
-          />
+            element={
+              user ? (
+                <SlotsGame
+                  onCoinsChange={(newCoins) =>
+                    setUser((prev) => (prev ? { ...prev, coins: newCoins } : prev))
+                  }/>) : (<Navigate to="/" />)}/>
 
           {/* Fallback */}
           <Route path="*" element={<Navigate to="/" />} />

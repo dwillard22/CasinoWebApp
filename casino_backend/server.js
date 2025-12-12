@@ -104,6 +104,8 @@ initDb()
     app.use("/api/profile", (await import("./routes/profile.js")).default);
     app.use("/api/slots", (await import("./routes/slots.js")).default);
     app.use("/api/blackjack", (await import("./routes/blackjack.js")).default);
+    app.use("/api/keno", (await import("./routes/Keno.js")).default);
+   app.use("/api/ride-the-bus",(await import("./routes/ridethebus.js")).default);
 
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
