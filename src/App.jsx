@@ -46,7 +46,15 @@ function App() {
 
   return (
     <>
-      {!hideHeader && <Header />}
+      {!hideHeader && (
+      <Header
+        user={user}
+        onLogout={async () => {
+          await fetch("/api/auth/logout", { method: "POST", credentials: "include" });
+          setUser(null);
+        }}
+      />
+      )}
 
       <div style={{ marginTop: hideHeader ? "0" : "80px" }}>
         <Routes>
@@ -69,20 +77,34 @@ function App() {
           {/* Protected individual games */}
           <Route
             path="/games/blackjack"
-            element={user ? <BlackJack /> : <Navigate to="/" />}
-          />
+            element={
+              user ? (
+                <BlackJack
+                  onCoinsChange={(newCoins) =>
+                    setUser((prev) => (prev ? { ...prev, coins: newCoins } : prev))
+                  } />) : (<Navigate to="/" />)}/>
+
           <Route
             path="/games/keno"
-            element={user ? <KenoGame /> : <Navigate to="/" />}
-          />
+            element={
+              user ? (
+                <KenoGame
+                  onCoinsChange={(newCoins) =>
+                    setUser((prev) => (prev ? { ...prev, coins: newCoins } : prev))
+                  }/>) : (<Navigate to="/" />)}/>
+
           <Route
             path="/games/ride-the-bus"
-            element={user ? <RideTheBus /> : <Navigate to="/" />}
+            element={user ? <RideTheBus user={user} setUser={setUser} /> : <Navigate to="/" />}
           />
           <Route
             path="/games/slots"
-            element={user ? <SlotsGame /> : <Navigate to="/" />}
-          />
+            element={
+              user ? (
+                <KenoGame
+                  onCoinsChange={(newCoins) =>
+                    setUser((prev) => (prev ? { ...prev, coins: newCoins } : prev))
+                  }/>) : (<Navigate to="/" />)}/>
 
           {/* Fallback */}
           <Route path="*" element={<Navigate to="/" />} />

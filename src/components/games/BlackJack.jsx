@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../styles/blackJack.css";
 
-export default function BlackJack() {
+export default function BlackJack({onCoinsChange}) {
   const navigate = useNavigate();
 
   // Coins synced with backend
@@ -21,13 +21,17 @@ export default function BlackJack() {
 
   // Load initial coin balance
   useEffect(() => {
-    fetch("/api/profile")
-      .then(res => res.json())
-      .then(data => {
-        setCoins(data.coins);
-        setLoadingCoins(false);
-      });
-  }, []);
+  fetch("/api/profile")
+    .then((res) => res.json())
+    .then((data) => {
+      setCoins(data.coins);
+      setLoadingCoins(false);
+    })
+    .catch((err) => {
+      console.error("Error loading profile for Blackjack:", err);
+      setLoadingCoins(false);
+    });
+}, []);
 
   const createDeck = () => {
     const suits = ["♠", "♥", "♦", "♣"];
@@ -78,15 +82,17 @@ export default function BlackJack() {
     const playerValue = getHandValue(player);
     if (playerValue === 21) {
       const res = await fetch("/api/blackjack/result", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ bet, outcome: "blackjack" })
-      });
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ bet, outcome: "blackjack" })
+    });
 
-      const data = await res.json();
-      setCoins(data.coins);
-      setMessage(`🃏 BLACKJACK! You win ${Math.floor(bet * 2.5)} coins!`);
-      setGameOver(true);
+    const data = await res.json();
+    setCoins(data.coins);
+    if (onCoinsChange) onCoinsChange(data.coins);
+
+    setMessage(`🃏 BLACKJACK! You win ${Math.floor(bet * 2.5)} coins!`);
+    setGameOver(true);
     }
   };
 
@@ -144,6 +150,7 @@ export default function BlackJack() {
 
     const data = await res.json();
     setCoins(data.coins);
+    if (onCoinsChange) onCoinsChange(data.coins);
   };
 
   if (loadingCoins) return <h2>Loading coins...</h2>;
