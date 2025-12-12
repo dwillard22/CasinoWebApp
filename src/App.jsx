@@ -4,7 +4,7 @@ import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import AuthScreen from "./components/AuthScreen";
 import TitleScreen from "./components/TitleScreen";
 import GameScreen from "./components/GameScreen";
-import Header from "./components/Header";
+import Header from "./components/header";
 import ProfilePage from "./components/ProfilePage";
 
 import BlackJack from "./components/games/BlackJack";
@@ -83,7 +83,6 @@ function App() {
                   onCoinsChange={(newCoins) =>
                     setUser((prev) => (prev ? { ...prev, coins: newCoins } : prev))
                   } />) : (<Navigate to="/" />)}/>
-
           <Route
             path="/games/keno"
             element={
@@ -92,16 +91,19 @@ function App() {
                   onCoinsChange={(newCoins) =>
                     setUser((prev) => (prev ? { ...prev, coins: newCoins } : prev))
                   }/>) : (<Navigate to="/" />)}/>
-
           <Route
             path="/games/ride-the-bus"
-            element={user ? <RideTheBus user={user} setUser={setUser} /> : <Navigate to="/" />}
-          />
+            element={
+              user ? (
+                <RideTheBus
+                  onCoinsChange={(newCoins) =>
+                    setUser((prev) => (prev ? { ...prev, coins: newCoins } : prev))
+                 } /> ):(<Navigate to="/" /> )}/>
           <Route
             path="/games/slots"
             element={
               user ? (
-                <KenoGame
+                <SlotsGame
                   onCoinsChange={(newCoins) =>
                     setUser((prev) => (prev ? { ...prev, coins: newCoins } : prev))
                   }/>) : (<Navigate to="/" />)}/>
