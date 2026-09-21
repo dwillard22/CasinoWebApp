@@ -2,6 +2,7 @@ import { Router } from 'express';
 import passport from 'passport';
 
 const router = Router();
+const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:4000';
 
 // Kick off Google login
 router.get('/google',
@@ -12,12 +13,12 @@ router.get('/google',
 router.get(
   '/google/callback',
   passport.authenticate('google', {
-    failureRedirect: 'http://localhost:5173/', // back to login on failure
+    failureRedirect: `${frontendUrl}/`,
     session: true
   }),
   (req, res) => {
     // On success, redirect to games page on frontend
-    res.redirect('http://localhost:5173/games');
+    res.redirect(`${frontendUrl}/games`);
   }
 );
 

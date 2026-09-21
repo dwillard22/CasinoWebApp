@@ -77,15 +77,14 @@ function generateResultByTier() {
 
 router.post("/spin", async (req, res) => {
   try {
-    const userId = req.session?.userId ?? 1;
-
-    // 1) Get or initialize user coins
-    let user = await req.db.get("SELECT coins FROM users WHERE id = ?", [userId]);
-
-    if (!user) {
-      await req.db.run("INSERT INTO users (id, coins) VALUES (?, ?)", [userId, STARTING_COINS]);
-      user = { coins: STARTING_COINS };
+    if (!req.user) {
+      return res.status(401).json({ error: "NOT_LOGGED_IN" });
     }
+
+    const userId = req.user.id;
+
+    const user = await req.db.get("SELECT coins FROM users WHERE id = ?", [userId]);
+    if (!user) return res.status(401).json({ error: "NOT_LOGGED_IN" });
 
     const currentCoins = user.coins ?? 0;
 

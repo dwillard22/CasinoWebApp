@@ -1,9 +1,9 @@
 /* eslint-disable no-undef */
 // casino_backend/server.js
 
+import dotenv from "dotenv";
 import express from "express";
 import session from "express-session";
-import dotenv from "dotenv";
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { init as initDb } from "./db.js";
@@ -105,7 +105,7 @@ initDb()
     app.use("/api/slots", (await import("./routes/slots.js")).default);
     app.use("/api/blackjack", (await import("./routes/blackjack.js")).default);
     app.use("/api/keno", (await import("./routes/Keno.js")).default);
-   app.use("/api/ride-the-bus",(await import("./routes/ridethebus.js")).default);
+    app.use("/api/ride-the-bus", (await import("./routes/ridethebus.js")).default);
 
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);

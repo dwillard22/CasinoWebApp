@@ -15,37 +15,41 @@ const PAYOUT_TABLE = {
 
 router.post("/result", async (req, res) => {
     try {
-        const userId = req.session?.userId ?? 1;
-        const { bet, hits } = req.body;
+        if (!req.user) {
+            return res.status(401).json({ error: "NOT_LOGGED_IN" });
+        }
 
-        if (!bet || bet < 1) {
+        const userId = req.user.id;
+        const { bet, hits } = req.body;
+        const numericBet = Number(bet);
+        const numericHits = Number(hits);
+
+        if (!Number.isInteger(numericBet) || numericBet < 1) {
             return res.status(400).json({ error: "INVALID_BET" });
         }
 
-        if (hits < 0 || hits > 5) {
+        if (!Number.isInteger(numericHits) || numericHits < 0 || numericHits > 5) {
             return res.status(400).json({ error: "INVALID_HIT_COUNT" });
         }
 
         // Get user from DB
-        let user = await req.db.get(
+        const user = await req.db.get(
             "SELECT coins FROM users WHERE id = ?",
             [userId]
         );
 
-        if (!user) {
-            // Default new user with 250 coins (same as blackjack)
-            await req.db.run("INSERT INTO users (id, coins) VALUES (?, 250)", [userId]);
-            user = { coins: 250 };
+        if (!user || user.coins < numericBet) {
+            return res.status(400).json({ error: "INSUFFICIENT_COINS", coins: user?.coins ?? 0 });
         }
 
         let coins = user.coins;
 
         // Deduct bet at start (same as Blackjack)
-        coins -= bet;
+        coins -= numericBet;
 
         // Determine winnings
-        const multiplier = PAYOUT_TABLE[hits] ?? 0;
-        const winnings = bet * multiplier;
+        const multiplier = PAYOUT_TABLE[numericHits] ?? 0;
+        const winnings = numericBet * multiplier;
 
         // Add winnings back
         coins += winnings;
@@ -56,7 +60,7 @@ router.post("/result", async (req, res) => {
             [coins, userId]
         );
 
-        return res.json({ coins, winnings, hits });
+        return res.json({ coins, winnings, hits: numericHits });
 
     } catch (err) {
         console.error("Keno backend error:", err);

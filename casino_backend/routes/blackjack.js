@@ -5,36 +5,40 @@ const router = Router();
 
 router.post("/result", async (req, res) => {
     try {
-        const userId = req.session?.userId ?? 1;
-        const { bet, outcome } = req.body;
+        if (!req.user) {
+            return res.status(401).json({ error: "NOT_LOGGED_IN" });
+        }
 
-        if (!bet || bet < 1) {
+        const userId = req.user.id;
+        const { bet, outcome } = req.body;
+        const numericBet = Number(bet);
+
+        if (!Number.isInteger(numericBet) || numericBet < 1) {
             return res.status(400).json({ error: "INVALID_BET" });
         }
 
         // Get user coins
-        let user = await req.db.get(
+        const user = await req.db.get(
             "SELECT coins FROM users WHERE id = ?",
             [userId]
         );
 
-        if (!user) {
-            await req.db.run("INSERT INTO users (id, coins) VALUES (?, 250)", [userId]);
-            user = { coins: 250 };
+        if (!user || user.coins < numericBet) {
+            return res.status(400).json({ error: "INSUFFICIENT_COINS", coins: user?.coins ?? 0 });
         }
 
         let coins = user.coins;
 
         // Deduct bet at start of round
-        coins -= bet;
+        coins -= numericBet;
 
         // Apply outcome payouts
         if (outcome === "blackjack") {
-            coins += Math.floor(bet * 2.5);
+            coins += Math.floor(numericBet * 2.5);
         } else if (outcome === "win") {
-            coins += bet * 2;
+            coins += numericBet * 2;
         } else if (outcome === "push") {
-            coins += bet; // refund
+            coins += numericBet; // refund
         }
 
         // Update DB
