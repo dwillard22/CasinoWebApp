@@ -15,7 +15,11 @@ const MULTIPLIERS = {
 
 router.post("/result", async (req, res) => {
   try {
-    const userId = req.session?.userId ?? 1;
+    if (!req.user) {
+      return res.status(401).json({ error: "NOT_LOGGED_IN" });
+    }
+
+    const userId = req.user.id;
     const { bet, outcome, roundsCompleted } = req.body;
 
     const numericBet = Number(bet);
@@ -37,9 +41,8 @@ router.post("/result", async (req, res) => {
     // Get user coins
     let user = await req.db.get("SELECT coins FROM users WHERE id = ?", [userId]);
 
-    if (!user) {
-      await req.db.run("INSERT INTO users (id, coins) VALUES (?, 250)", [userId]);
-      user = { coins: 250 };
+    if (!user || user.coins < numericBet) {
+      return res.status(400).json({ error: "INSUFFICIENT_COINS", coins: user?.coins ?? 0 });
     }
 
     let coins = Number(user.coins) || 0;

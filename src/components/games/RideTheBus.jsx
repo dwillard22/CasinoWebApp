@@ -1,5 +1,5 @@
-import { useNavigate } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../../styles/rideTheBus.css";
 
 export default function RideTheBus({ onCoinsChange }) {
@@ -194,7 +194,7 @@ export default function RideTheBus({ onCoinsChange }) {
   };
 
   // ===== Round 1 =====
-  const handleRedBlack = (guess) => {
+  const handleRedBlack = async (guess) => {
     if (!runActive || awaitingDecision || round !== 1) return;
 
     const card = popCardFromDeck();
@@ -204,7 +204,7 @@ export default function RideTheBus({ onCoinsChange }) {
 
     const actual = isRedSuit(card.suit) ? "red" : "black";
     if (actual !== guess) {
-      settleRun("loss", 0);
+      await settleRun("loss", 0);
       resetToBetting(`❌ Wrong! ${card.label}${suitSymbol(card.suit)} was ${actual}.`);
       return;
     }
@@ -213,7 +213,7 @@ export default function RideTheBus({ onCoinsChange }) {
   };
 
   // ===== Round 2 =====
-  const handleHigherLower = (guess) => {
+  const handleHigherLower = async (guess) => {
     if (!runActive || awaitingDecision || round !== 2) return;
 
     const first = cards[0];
@@ -227,7 +227,7 @@ export default function RideTheBus({ onCoinsChange }) {
       (guess === "lower" && next.value < first.value);
 
     if (!correct) {
-      settleRun("loss", 1);
+      await settleRun("loss", 1);
       resetToBetting(`❌ Wrong! Drew ${next.label}${suitSymbol(next.suit)}.`);
       return;
     }
@@ -236,7 +236,7 @@ export default function RideTheBus({ onCoinsChange }) {
   };
 
   // ===== Round 3 =====
-  const handleInsideOutside = (guess) => {
+  const handleInsideOutside = async (guess) => {
     if (!runActive || awaitingDecision || round !== 3) return;
 
     const [c1, c2] = cards;
@@ -253,7 +253,7 @@ export default function RideTheBus({ onCoinsChange }) {
 
     const correct = (inside && guess === "inside") || (!inside && guess === "outside");
     if (!correct) {
-      settleRun("loss", 2);
+      await settleRun("loss", 2);
       resetToBetting(`❌ Wrong! Drew ${next.label}${suitSymbol(next.suit)}.`);
       return;
     }
@@ -262,7 +262,7 @@ export default function RideTheBus({ onCoinsChange }) {
   };
 
   // ===== Round 4 =====
-  const handleSuit = (guess) => {
+  const handleSuit = async (guess) => {
     if (!runActive || awaitingDecision || round !== 4) return;
 
     const next = popCardFromDeck();
@@ -271,7 +271,7 @@ export default function RideTheBus({ onCoinsChange }) {
     setCards((prev) => [...prev, next]);
 
     if (next.suit !== guess) {
-      settleRun("loss", 3);
+      await settleRun("loss", 3);
       resetToBetting(`❌ Wrong! It was ${next.label}${suitSymbol(next.suit)}.`);
       return;
     }
@@ -281,7 +281,7 @@ export default function RideTheBus({ onCoinsChange }) {
     setAwaitingDecision(false);
     setCompletedRounds(4);
 
-    settleRun("win", 4);
+    await settleRun("win", 4);
     resetToBetting("🏆 Win! Place a new bet to play again.");
   };
 

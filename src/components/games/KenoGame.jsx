@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../styles/gameScreen.css";
 import "../../styles/kenoGame.css";
@@ -13,7 +13,7 @@ const PAYOUT_TABLE = {
   5: 50,
 };
 
-export default function KenoGame() {
+export default function KenoGame({ onCoinsChange }) {
   const navigate = useNavigate();
 
   // Coins synced with backend (like Blackjack)
@@ -134,6 +134,7 @@ export default function KenoGame() {
       .then((data) => {
         if (typeof data.coins === "number") {
           setCoins(data.coins);
+          onCoinsChange?.(data.coins);
         } else {
           console.warn("Keno result missing coins in response:", data);
         }
